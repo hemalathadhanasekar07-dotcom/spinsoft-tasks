@@ -39,7 +39,7 @@ public class Controller {
     }
     @GetMapping("Student/{id}")
     public Student getuserbyId() {
-
+        return null;
 
     }
 
