@@ -3,10 +3,9 @@ package org.example.demo2.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("api/students")
+
+
 @Setter
 @Getter
 @Entity
@@ -23,6 +22,5 @@ public class Student {
         this.name = name;
         this.email = email;
     }
-
 
 }
