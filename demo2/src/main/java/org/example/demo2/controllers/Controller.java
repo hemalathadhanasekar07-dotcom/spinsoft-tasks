@@ -1,8 +1,10 @@
 package org.example.demo2.controllers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.example.demo2.entities.Student;
 import org.example.demo2.exceptions.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.example.demo2.repositories.StudentRepository;
 import java.util.List;
@@ -10,8 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/students")
 public class Controller {
-
+    @Autowired
     private final StudentRepository studentRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Controller(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -36,6 +40,7 @@ public class Controller {
     // CREATE STUDENT
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);
     }
 

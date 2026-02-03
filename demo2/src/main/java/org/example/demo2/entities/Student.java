@@ -16,11 +16,15 @@ public class Student {
     private Long id;
     private String name;
     private String email;
+    private String username;
+    private String password;
 
     public Student() {}
-    public Student(String name, String email) {
+    public Student(String name, String email,String username,String password) {
         this.name = name;
         this.email = email;
+        this.username=username;
+        this.password=password;
     }
 
 }
