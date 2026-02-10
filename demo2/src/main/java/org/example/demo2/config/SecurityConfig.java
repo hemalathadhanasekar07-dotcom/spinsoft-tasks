@@ -28,22 +28,34 @@ import java.util.Map;
 public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
-        http.authorizeHttpRequests(authz ->authz
-                        .requestMatchers(HttpMethod.POST,"/students").permitAll()
-                        .requestMatchers("/students/**").authenticated()
-                        .anyRequest().permitAll())
-                // .formLogin(form ->form.permitAll().defaultSuccessUrl("/dashboard"))
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sess ->
+                        sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(authz -> authz
+
+                        // public endpoints
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/students").permitAll()
+
+                        // ADMIN only: get all students
+                        .requestMatchers(HttpMethod.GET, "/students").hasRole("ADMIN")
+
+                        // other student APIs require login (USER or ADMIN)
+                        .requestMatchers("/students/**").authenticated()
+
+                        // everything else
+                        .anyRequest().permitAll()
+                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-
-
-
-        return  http.build();
-
+        return http.build();
     }
     @Bean
     public UserDetailsService userDetailService(PasswordEncoder passwordEncoder){

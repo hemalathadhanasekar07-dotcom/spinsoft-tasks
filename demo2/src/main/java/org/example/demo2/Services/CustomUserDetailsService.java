@@ -27,7 +27,7 @@ public  class CustomUserDetailsService implements UserDetailsService {
         //fetch user from database
         Student user= userRepository.findByUsername(username).
                 orElseThrow( ()->new UsernameNotFoundException("user Not Found!"));
-        return new User(user.getUsername(),user.getPassword(), Collections.singleton(new SimpleGrantedAuthority("USER_ROLE")));
+        return new User(user.getUsername(),user.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_"+user.getRole())));
 
     }
 }
