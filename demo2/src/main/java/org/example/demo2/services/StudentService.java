@@ -34,7 +34,8 @@ public class StudentService {
         log.info("Creating new student");
 
         Student student = new Student();
-        student.setName(dto.getName());
+        String fullName= dto.getFirstName()+" "+dto.getLastName();
+        student.setName(fullName);
         student.setEmail(dto.getEmail());
         student.setUsername(dto.getUsername());
         student.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -78,8 +79,8 @@ public class StudentService {
             );
         }
 
-
-        existing.setName(dto.getName());
+        String fullName= dto.getFirstName()+" "+dto.getLastName();
+        existing.setName(fullName);
         existing.setEmail(dto.getEmail());
         existing.setModifiedBy(loggedInUserId);
 
