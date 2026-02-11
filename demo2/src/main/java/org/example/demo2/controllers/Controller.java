@@ -1,5 +1,6 @@
 package org.example.demo2.controllers;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.example.demo2.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class Controller {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
+    public Student createStudent(@Valid @RequestBody Student student) {
 
         log.info("Creating student with email {}", student.getEmail());
         student.setPassword(passwordEncoder.encode(student.getPassword()));
